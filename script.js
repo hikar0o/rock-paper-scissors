@@ -79,7 +79,7 @@
     }
 
     console.log(`You scored = ${humanScore}`);
-    console.log(`Computer1 scored = ${computerScore}`);
+    console.log(`Computer scored = ${computerScore}`);
     }
 
     playGame();
