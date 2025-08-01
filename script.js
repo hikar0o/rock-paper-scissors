@@ -1,5 +1,5 @@
 
-    function getComputerChoice() {
+function getComputerChoice() {
     const randomNumber = Math.random();
     if (randomNumber < 1 / 3) {
         return "Rock";
@@ -10,76 +10,77 @@
     }
     }
 
-    function getHumanChoice() {
+function getHumanChoice() {
     return prompt("Choose Rock, Paper or Scissors: ");
     }
 
-    let humanScore = 0;
-    let computerScore = 0;
+let humanScore = 0;
+let computerScore = 0;
 
-    function playRound(getHumanChoice, getComputerChoice) {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    if (computerSelection === humanSelection) {
+function playRound(humanSelection, computerSelection) {
+    const human = humanSelection.toLowerCase();
+    const computer = computerSelection.toLowerCase();
+
+    if (computer === human) {
         return "It's a tie";
     }
-    if (computerSelection === "Rock" && humanSelection === "Paper") {
-        humanScore++;
-        return "Paper beats rock, You won this round!";
-    } else if (computerSelection === "Paper" && humanSelection === "Rock") {
-        computerScore++;
-        return "Paper beats rock, You lose this round!";
-    } else if (
-        computerSelection === "Scissors" &&
-        humanSelection === "Paper"
+    if (
+        computer === "rock" && human === "paper" ||
+        computer === "scissors" && human === "rock" ||
+        computer === "paper" && human === "scissors"
     ) {
-        computerScore++;
-        return "Scissors beats Paper, You lose this round!";
-    } else if (
-        computerSelection === "Paper" &&
-        humanSelection === "Scissors"
-    ) {
-        humanScore++;
-        return "Scissors beats Paper, You win this round!";
-    } else if (
-        computerSelection === "Scissors" &&
-        humanSelection === "Rock"
-    ) {
-        humanScore++;
-        return "Rock beats Scissors, You win this round!";
-    } else if (
-        computerSelection === "Rock" &&
-        humanSelection === "Scissors"
-    ) {
-        computerScore++;
-        return "Rock beats Scissors, You lose this round!";
+        humanScore++
+        return `You win! ${human} beats ${computer}`
     }
+    else {
+        computerScore++
+        return `You lose ${computer} beats ${human}`
+    }
+    
     }
 
-    function playGame() {
-    for (let i = 1; i <= 5; i++) {
+
+const validChoice = ["rock", "paper", "scissors"]
+
+function playGame() {
+    let round = 1;
+    while (round <= 5) {
         let humanChoice = getHumanChoice();
+        if (humanChoice === null || humanChoice.toLowerCase() === "cancel") {
+            console.log("Game over. You chose to cancel.");
+            return;
+        }
+
+        humanChoice = humanChoice.toLowerCase();
+
+        if (!validChoice.includes(humanChoice)) {
+            console.log("Invalid choice. Please enter rock, paper, or scissors.");
+            continue;
+        }
+
         let cpuChoice = getComputerChoice();
-        console.log(`Round ${i}`);
-        console.log(`Computer choose ${cpuChoice}`);
-        console.log(`You choose ${humanChoice}`);
-        let result = playRound(
-        () => humanChoice,
-        () => cpuChoice
-        );
+        console.log(`\nRound ${round}`);
+        console.log(`Computer chose: ${cpuChoice}`);
+        console.log(`You chose: ${humanChoice}`);
+
+        let result = playRound(humanChoice, cpuChoice);
         console.log(result);
+
+        console.log(`Current Score - You: ${humanScore}, Computer: ${computerScore}`);
+        round++;
     }
 
+    console.log("\nFinal Result:");
     if (computerScore === humanScore) {
         console.log("It's a tie!");
     } else if (computerScore > humanScore) {
         console.log("You lose!");
-    } else if (humanScore > computerScore) {
+    } else {
         console.log("You win!");
     }
+}
 
-    console.log(`You scored = ${humanScore}`);
-    console.log(`Computer scored = ${computerScore}`);
-    }
 
-    playGame();
+console.log("Welcome to Rock, Paper and Scissors game. write cancel to cancel the game at any time!")
+playGame();
+
